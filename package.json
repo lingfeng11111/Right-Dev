@@ -1,0 +1,181 @@
+{
+  "name": "right-dev",
+  "displayName": "Right Dev",
+  "description": "One-click development server startup and browser opening. Smart detection for Vite, React, Next.js, Vue, Laravel, Symfony projects.",
+  "version": "1.0.0",
+  "publisher": "lingfeng",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lingfeng11111/Right-Dev"
+  },
+  "icon": "Right-dev.png",
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Other",
+    "Debuggers",
+    "Extension Packs"
+  ],
+  "keywords": [
+    "dev server",
+    "development server",
+    "auto start",
+    "browser open",
+    "vite",
+    "react",
+    "nextjs",
+    "vue",
+    "php",
+    "laravel",
+    "symfony",
+    "right-click",
+    "one-click"
+  ],
+  "activationEvents": [
+    "onCommand:right-dev.start",
+    "onLanguage:javascript",
+    "onLanguage:typescript",
+    "onLanguage:php"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "right-dev.start",
+        "title": "Start Dev & Open",
+        "category": "Right Dev",
+        "icon": "$(play)"
+      },
+      {
+        "command": "right-dev.stop",
+        "title": "Stop Dev Server",
+        "category": "Right Dev",
+        "icon": "$(stop)"
+      },
+      {
+        "command": "right-dev.restart",
+        "title": "Restart Dev Server",
+        "category": "Right Dev",
+        "icon": "$(refresh)"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "right-dev.start",
+          "when": "explorerResourceIsFolder",
+          "group": "right-dev@1"
+        },
+        {
+          "command": "right-dev.start",
+          "when": "resourceExtname == .html || resourceExtname == .htm || resourceExtname == .php || resourceExtname == .js || resourceExtname == .ts || resourceExtname == .jsx || resourceExtname == .tsx",
+          "group": "right-dev@1"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "right-dev.start",
+          "when": "resourceExtname == .html || resourceExtname == .htm || resourceExtname == .php || resourceExtname == .js || resourceExtname == .ts || resourceExtname == .jsx || resourceExtname == .tsx",
+          "group": "right-dev@1"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "right-dev.start"
+        },
+        {
+          "command": "right-dev.stop",
+          "when": "right-dev.isRunning"
+        },
+        {
+          "command": "right-dev.restart",
+          "when": "right-dev.isRunning"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Right Dev",
+      "properties": {
+        "right-dev.autoInstall": {
+          "type": "boolean",
+          "default": true,
+          "description": "Auto-install missing dependencies (npm install / composer install) - 自动安装缺失的依赖包"
+        },
+        "right-dev.portRange": {
+          "type": "string",
+          "default": "3000-3999",
+          "description": "Port range (format: 3000-3999 or 8080,8081,8082) - 端口范围"
+        },
+        "right-dev.customScript": {
+          "type": "string",
+          "default": "",
+          "description": "Custom startup script (overrides auto-detected script) - 自定义启动脚本"
+        },
+        "right-dev.timeout": {
+          "type": "number",
+          "default": 10000,
+          "description": "Service startup timeout in milliseconds - 服务启动超时时间"
+        },
+        "right-dev.autoOpenBrowser": {
+          "type": "boolean",
+          "default": true,
+          "description": "Auto-open browser - 自动打开浏览器"
+        },
+        "right-dev.browser": {
+          "type": "string",
+          "enum": [
+            "default",
+            "chrome",
+            "firefox",
+            "edge",
+            "safari"
+          ],
+          "default": "default",
+          "description": "Specify browser to open - 指定打开的浏览器"
+        },
+        "right-dev.htmlOpenMode": {
+          "type": "string",
+          "enum": ["server", "direct"],
+          "default": "server",
+          "description": "HTML file open mode: server (start HTTP server) or direct (open file directly) - HTML文件打开模式"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "webpack --mode production",
+    "watch": "webpack --mode development --watch",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js",
+    "package": "vsce package",
+    "publish": "vsce publish"
+  },
+  "devDependencies": {
+    "@types/detect-port": "^1.3.5",
+    "@types/fs-extra": "^11.0.4",
+    "@types/mime": "^3.0.4",
+    "@types/node": "16.x",
+    "@types/vscode": "^1.74.0",
+    "@types/ws": "^8.5.10",
+    "@typescript-eslint/eslint-plugin": "^5.45.0",
+    "@typescript-eslint/parser": "^5.45.0",
+    "@vscode/test-electron": "^2.2.0",
+    "eslint": "^8.28.0",
+    "ts-loader": "^9.4.1",
+    "typescript": "^4.9.4",
+    "vsce": "^2.15.0",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.0"
+  },
+  "dependencies": {
+    "chokidar": "^3.5.3",
+    "detect-port": "^1.5.1",
+    "fs-extra": "^11.1.0",
+    "mime": "^3.0.0",
+    "open": "^8.4.0",
+    "ws": "^8.14.2"
+  }
+}
